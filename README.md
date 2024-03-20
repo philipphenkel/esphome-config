@@ -2,7 +2,7 @@
 Repo for my [ESPHome](https://esphome.io/) configurations. Contributions welcome.
 
 ## Deye SUN-12K-SG04LP3
-The most complete modbus connector for the Deye three-phase hybrid inverter.
+The most complete 😉 Modbus connector for the Deye SG04LP3 three-phase hybrid low voltage inverter. Should be compatible with all versions: SUN-5K-SG04LP3, SUN-6K-SG04LP3, SUN-8K-SG04LP3, SUN-12K-SG04LP3
 
 [deye-sun-12k-sg04lp3.yaml](./devices/deye-sun-12k-sg04lp3.yaml)
 
