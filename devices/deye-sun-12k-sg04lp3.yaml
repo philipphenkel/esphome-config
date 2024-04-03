@@ -376,8 +376,8 @@ sensor:
     address: 540
     unit_of_measurement: "°C"
     device_class: temperature
+    accuracy_decimals: 1
     value_type: S_WORD
-    accuracy_decimals: 2
     filters:
       - offset: -1000
       - multiply:  0.1
@@ -389,8 +389,8 @@ sensor:
     address: 541
     unit_of_measurement: "°C"
     device_class: temperature
+    accuracy_decimals: 1
     value_type: S_WORD
-    accuracy_decimals: 2
     filters:
       - offset: -1000
       - multiply:  0.1
@@ -618,7 +618,7 @@ sensor:
     unit_of_measurement: "kWh"
     state_class: "total_increasing"
     device_class: energy
-    accuracy_decimals: 2
+    accuracy_decimals: 0
     value_type: U_DWORD_R
     filters:
       - multiply: 0.1
@@ -973,8 +973,8 @@ sensor:
     address: 586
     unit_of_measurement: "°C"
     device_class: temperature
-    accuracy_decimals: 1
-    value_type: U_WORD 
+    accuracy_decimals: 0
+    value_type: S_WORD 
     filters:
       - offset: -1000
       - multiply: 0.1
@@ -1000,7 +1000,7 @@ sensor:
     unit_of_measurement: "%"
     state_class: "measurement"
     device_class: battery
-    accuracy_decimals: 1
+    accuracy_decimals: 0
     value_type: U_WORD
  
   - platform: modbus_controller
