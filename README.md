@@ -12,6 +12,8 @@ Based on the work of [Sunsynk-Home-Assistant-Dash](https://github.com/slipx06/Su
 ## Victron SmartSolar 75 | 15
 This ESPHome connector reads the SmartSolar sensors using the Bluetooth advertising protocol. It also provides a few extras such as battery charge and discharge, load voltage and power, and daily load consumption. I expect it to work with all SmartSolar devices, although I have only tested it with the SmartSolar 75 | 15.
 
+[victron-smartsolar-75-15.yaml](./devices/victron-smartsolar-75-15.yaml)
+
 #### Sensors
 - PV power and daily production 
 - Battery current, power, voltage, daily charge and discharge
