@@ -1,0 +1,188 @@
+substitutions:
+  victron_device: "victron-01"
+  victron_device_mac_address: "--YOUR-MAC-ADDRESS--"
+  victron_device_bindkey: "--YOUR-BINDKEY--"
+
+esphome:
+  name: "esphome-victron-${victron_device_mac_address}"
+  friendly_name: "Victron SmartSolar 75 | 15"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret api_encryption_key
+
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "esphome-victron-${victron_device_mac_address}"
+    password: "--YOUR-PASSWORD--"
+
+captive_portal:
+
+external_components:
+  - source: github://Fabian-Schmidt/esphome-victron_ble
+
+logger:
+
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+
+esp32_ble_tracker:
+
+victron_ble:
+  - id: "${victron_device}"
+    mac_address: "${victron_device_mac_address}"
+    bindkey: "${victron_device_bindkey}"
+
+sensor:
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    id: battery_power
+    name: "Battery Output Power"
+    type: BATTERY_POWER
+    unit_of_measurement: "W"
+    device_class: power
+    state_class: measurement
+    accuracy_decimals: 1
+    filters:
+      - multiply: -1.0
+      
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "Battery Voltage"
+    id: battery_voltage
+    type: BATTERY_VOLTAGE
+    unit_of_measurement: "V"
+    device_class: voltage
+    state_class: measurement
+    accuracy_decimals: 2
+
+
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "Battery Output Current"
+    type: BATTERY_CURRENT
+    unit_of_measurement: "A"
+    device_class: current
+    state_class: measurement
+    accuracy_decimals: 1
+    filters:
+      - multiply: -1.0
+
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "Daily PV Production"
+    type: YIELD_TODAY
+    unit_of_measurement: "Wh"
+    device_class: energy
+    state_class: measurement
+    accuracy_decimals: 0
+    filters:
+      - multiply: 1000
+
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "PV Power"
+    type: PV_POWER
+    unit_of_measurement: "W"
+    device_class: power
+    state_class: measurement
+    accuracy_decimals: 0
+
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "Load Current"
+    id: victron_load_current
+    type: LOAD_CURRENT
+    unit_of_measurement: "A"
+    device_class: current
+    state_class: measurement
+    accuracy_decimals: 1
+    filters:
+      - multiply: -1.0
+
+  - platform: template
+    name: 'Load Voltage'
+    unit_of_measurement: "V"
+    device_class: voltage
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 30s
+    lambda: |-
+      return id(battery_voltage).state;
+
+  - platform: template
+    name: 'Load Power'
+    id: load_power
+    device_class: power
+    unit_of_measurement: W
+    state_class: measurement
+    accuracy_decimals: 1
+    update_interval: 30s
+    lambda: |-
+      return id(battery_voltage).state * id(victron_load_current).state;
+
+  - platform: total_daily_energy
+    name: 'Daily Battery Discharge'
+    power_id: battery_power
+    unit_of_measurement: 'Wh'
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 0
+    filters:
+      - clamp:
+          min_value: 0
+
+  - platform: total_daily_energy
+    name: 'Daily Battery Charge'
+    power_id: battery_power
+    unit_of_measurement: 'Wh'
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 0
+    filters:
+      - multiply: -1.0
+      - clamp:
+          min_value: 0          
+
+  - platform: total_daily_energy
+    name: 'Daily Load Consumption'
+    power_id: load_power
+    unit_of_measurement: 'Wh'
+    device_class: energy
+    state_class: total_increasing
+    accuracy_decimals: 0
+
+binary_sensor:
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "MPPT is in Fault state"
+    type: DEVICE_STATE_FAULT
+  
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "MPPT has Error"
+    type: CHARGER_ERROR
+
+text_sensor:
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "MPPT state"
+    type: DEVICE_STATE
+  
+  - platform: victron_ble
+    victron_ble_id: "${victron_device}"
+    name: "MPPT Error reason"
+    type: CHARGER_ERROR
