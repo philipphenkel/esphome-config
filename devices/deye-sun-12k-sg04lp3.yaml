@@ -451,7 +451,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: voltage
     state_class: "measurement"
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     filters:
       - multiply: 0.1
     value_type: U_WORD
@@ -464,7 +464,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: voltage
     state_class: "measurement"
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     filters:
       - multiply: 0.1
     value_type: U_WORD
@@ -618,7 +618,7 @@ sensor:
     unit_of_measurement: "kWh"
     state_class: "total_increasing"
     device_class: energy
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     value_type: U_DWORD_R
     filters:
       - multiply: 0.1
@@ -631,7 +631,7 @@ sensor:
     unit_of_measurement: "A"
     device_class: current
     state_class: "measurement"
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     filters:
       - multiply: 0.01
     value_type: S_WORD  
@@ -644,7 +644,7 @@ sensor:
     unit_of_measurement: "A"
     device_class: current
     state_class: "measurement"
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     filters:
       - multiply: 0.01
     value_type: S_WORD   
@@ -657,7 +657,7 @@ sensor:
     unit_of_measurement: "A"
     device_class: current
     state_class: "measurement"
-    accuracy_decimals: 1
+    accuracy_decimals: 2
     filters:
       - multiply: 0.01
     value_type: S_WORD   
@@ -670,7 +670,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: voltage
     state_class: "measurement"
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     filters:
       - multiply: 0.1
     value_type: U_WORD     
@@ -683,7 +683,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: voltage
     state_class: "measurement"
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     filters:
       - multiply: 0.1
     value_type: U_WORD     
@@ -696,7 +696,7 @@ sensor:
     unit_of_measurement: "V"
     device_class: voltage
     state_class: "measurement"
-    accuracy_decimals: 0
+    accuracy_decimals: 1
     filters:
       - multiply: 0.1
     value_type: U_WORD  
