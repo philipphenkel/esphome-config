@@ -145,7 +145,7 @@ sensor:
   - platform: integration
     name: "Daily Battery Charge"
     sensor: battery_charge_power
-    time_unit: h
+    time_unit: d
     state_class: total_increasing
     device_class: energy
     unit_of_measurement: "Wh"
@@ -154,7 +154,7 @@ sensor:
   - platform: integration
     name: "Daily Battery Discharge"
     sensor: battery_discharge_power
-    time_unit: h
+    time_unit: d
     state_class: total_increasing
     device_class: energy
     unit_of_measurement: "Wh"
