@@ -30,6 +30,11 @@ wifi:
 
 captive_portal:
 
+
+#####################################
+#  Victron SmartSolar BLE Connector #
+#####################################
+
 external_components:
   - source: github://Fabian-Schmidt/esphome-victron_ble
 
@@ -38,6 +43,13 @@ logger:
 time:
   - platform: homeassistant
     id: homeassistant_time
+    on_time:
+      - seconds: 0
+        minutes: 0
+        hours: 0
+        then:
+          - sensor.integration.reset: daily_battery_charge
+          - sensor.integration.reset: daily_battery_discharge
 
 esp32_ble_tracker:
 
@@ -144,8 +156,9 @@ sensor:
 
   - platform: integration
     name: "Daily Battery Charge"
+    id: daily_battery_charge
     sensor: battery_charge_power
-    time_unit: d
+    time_unit: h
     state_class: total_increasing
     device_class: energy
     unit_of_measurement: "Wh"
@@ -153,8 +166,9 @@ sensor:
 
   - platform: integration
     name: "Daily Battery Discharge"
+    id: daily_battery_discharge
     sensor: battery_discharge_power
-    time_unit: d
+    time_unit: h
     state_class: total_increasing
     device_class: energy
     unit_of_measurement: "Wh"
