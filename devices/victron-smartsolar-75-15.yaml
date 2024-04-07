@@ -12,7 +12,6 @@ esp32:
   framework:
     type: arduino
 
-# Enable Home Assistant API
 api:
   encryption:
     key: !secret api_encryption_key
@@ -40,7 +39,7 @@ external_components:
 
 logger:
 
-time:
+time: # is required by total_daily_energy sensor
   - platform: homeassistant
     id: homeassistant_time
 
