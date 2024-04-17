@@ -6,6 +6,7 @@ substitutions:
 esphome:
   name: "esphome-victron-${victron_device_mac_address}"
   friendly_name: "Victron SmartSolar 75 | 15"
+  comment: "Reads the raw sensor data using the Bluetooth advertising protocol and provides battery charge and discharge, load voltage, load power, and daily load consumption on top."
 
 esp32:
   board: esp32dev
