@@ -154,6 +154,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
+    restore: False
 
   - platform: total_daily_energy
     name: 'Daily Battery Discharge'
@@ -162,6 +163,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
+    restore: False
 
   - platform: total_daily_energy
     name: 'Daily Load Consumption'
@@ -170,6 +172,7 @@ sensor:
     device_class: energy
     state_class: total_increasing
     accuracy_decimals: 1
+    restore: False
 
 binary_sensor:
   - platform: victron_ble
