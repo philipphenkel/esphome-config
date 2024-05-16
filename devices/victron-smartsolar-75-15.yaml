@@ -52,6 +52,9 @@ victron_ble:
     bindkey: "${victron_device_bindkey}"
 
 sensor:
+  - platform: uptime
+    name: Uptime Sensor
+
   - platform: victron_ble
     victron_ble_id: "${victron_device}"
     name: "Battery Voltage"
