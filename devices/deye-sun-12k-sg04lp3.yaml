@@ -1439,3 +1439,24 @@ select:
       "22:30": 2230
       "23:00": 2300
       "23:30": 2330
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    name: "${entity_name_prefix}Battery Type"
+    address: 98
+    value_type: U_WORD
+    optionsmap:
+      "Lead": 0
+      "Lithium": 1
+
+  - platform: modbus_controller
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    name: "${entity_name_prefix}Battery Operation Mode"
+    address: 111
+    value_type: U_WORD
+    optionsmap:
+      "Voltage": 0
+      "Capacity": 1
+      "No battery": 2
