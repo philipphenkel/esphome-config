@@ -184,6 +184,15 @@ binary_sensor:
      register_type: holding
      address: 551
      bitmask: 0x1
+
+   - platform: template
+     name: "${entity_name_prefix}Battery Status"
+     lambda: |-
+       if (id(battery_operation_mode).state == "No battery") {
+         return false;
+       } else {
+         return true;
+       }
  
 text_sensor:
    - platform: modbus_controller
@@ -239,6 +248,7 @@ number:
     name: "${entity_name_prefix}Max Solar Sell Power"
     unit_of_measurement: W
     device_class: power
+    step: 1
     address: 143
     value_type: U_WORD
     
@@ -1454,9 +1464,11 @@ select:
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
     name: "${entity_name_prefix}Battery Operation Mode"
+    id: battery_operation_mode
     address: 111
     value_type: U_WORD
     optionsmap:
       "Voltage": 0
       "Capacity": 1
       "No battery": 2
+  
