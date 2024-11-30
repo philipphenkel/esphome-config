@@ -59,6 +59,16 @@ modbus_controller:
     update_interval: 30sec
   
 switch:
+  - platform: modbus_controller # 0: power off 1: power on
+    use_write_multiple: true
+    modbus_controller_id: ${modbus_controller_id}
+    name: "${entity_name_prefix}Power Switch" 
+    register_type: holding
+    address: 80
+    bitmask: 1
+    entity_category: config
+    icon: "mdi:toggle-switch"
+
   - platform: modbus_controller
     use_write_multiple: true
     modbus_controller_id: ${modbus_controller_id}
