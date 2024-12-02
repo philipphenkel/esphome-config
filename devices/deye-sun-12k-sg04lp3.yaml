@@ -920,9 +920,9 @@ sensor:
     accuracy_decimals: 0
     value_type: U_WORD
  
-  - platform: modbus_controller
+    - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "${entity_name_prefix}Warning3"
+    name: "${entity_name_prefix}Error1"
     register_type: holding
     address: 555
     accuracy_decimals: 0
@@ -930,7 +930,7 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "${entity_name_prefix}Error1"
+    name: "${entity_name_prefix}Error2"
     register_type: holding
     address: 556
     accuracy_decimals: 0
@@ -938,7 +938,7 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "${entity_name_prefix}Error2"
+    name: "${entity_name_prefix}Error3"
     register_type: holding
     address: 557
     accuracy_decimals: 0
@@ -946,7 +946,7 @@ sensor:
  
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "${entity_name_prefix}Error3"
+    name: "${entity_name_prefix}Error4"
     register_type: holding
     address: 558
     accuracy_decimals: 0
