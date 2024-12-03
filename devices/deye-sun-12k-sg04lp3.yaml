@@ -209,45 +209,60 @@ text_sensor:
      modbus_controller_id: ${modbus_controller_id}
      bitmask: 0
      register_type: holding
-     register_count: 2
+     response_size: 8
      address: 555
-     raw_encode: HEXBYTES
+     raw_encode: NONE
      name: "${entity_name_prefix}Error Code"
      lambda: |-
-       uint64_t value = modbus_controller::word_from_hex_str(x, 0);
+       if (x.size() != 8) {
+         return std::string("invalid data");
+       }
+    
+       // Assemble words without rotating bytes within words
+       uint16_t word0 = ((uint16_t)(uint8_t)x[0] << 8) | (uint8_t)x[1];
+       uint16_t word1 = ((uint16_t)(uint8_t)x[2] << 8) | (uint8_t)x[3];
+       uint16_t word2 = ((uint16_t)(uint8_t)x[4] << 8) | (uint8_t)x[5];
+       uint16_t word3 = ((uint16_t)(uint8_t)x[6] << 8) | (uint8_t)x[7];
+
+       // Assemble uint64_t value; words are in little-endian order
+       uint64_t value = ((uint64_t)word3 << 48) |
+                        ((uint64_t)word2 << 32) |
+                        ((uint64_t)word1 << 16) |
+                        word0;
+
        switch (value) {
          case 0: return std::string("OK");
-         case (1 << 1): return std::string("F02");         
-         case (1 << 2): return std::string("F03");
-         case (1 << 3): return std::string("F04");
-         case (1 << 4): return std::string("F05");
-         case (1 << 5): return std::string("F06");
-         case (1 << 6): return std::string("F07");
-         case (1 << 7): return std::string("F08");
-         case (1 << 8): return std::string("F09");
-         case (1 << 9): return std::string("F10");
-         case (1 << 10): return std::string("F11");
-         case (1 << 11): return std::string("F12");
-         case (1 << 12): return std::string("F13");
-         case (1 << 13): return std::string("F14");
-         case (1 << 14): return std::string("F15");
-         case (1 << 15): return std::string("F16");
-         case (1 << 16): return std::string("F17");
-         case (1 << 17): return std::string("F18");
-         case (1 << 18): return std::string("F19");
-         case (1 << 19): return std::string("F20");
-         case (1 << 20): return std::string("F21");
-         case (1 << 21): return std::string("F22");
-         case (1 << 22): return std::string("F23");
-         case (1 << 23): return std::string("F24");
-         case (1 << 24): return std::string("F25");
-         case (1 << 25): return std::string("F26");
-         case (1 << 26): return std::string("F27");
-         case (1 << 27): return std::string("F28");
-         case (1 << 28): return std::string("F29");
-         case (1 << 29): return std::string("F30");
-         case (1 << 30): return std::string("F31");
-         case (1 << 31): return std::string("F32");
+         case (1ULL << 1): return std::string("F02");         
+         case (1ULL << 2): return std::string("F03");
+         case (1ULL << 3): return std::string("F04");
+         case (1ULL << 4): return std::string("F05");
+         case (1ULL << 5): return std::string("F06");
+         case (1ULL << 6): return std::string("F07");
+         case (1ULL << 7): return std::string("F08");
+         case (1ULL << 8): return std::string("F09");
+         case (1ULL << 9): return std::string("F10");
+         case (1ULL << 10): return std::string("F11");
+         case (1ULL << 11): return std::string("F12");
+         case (1ULL << 12): return std::string("F13");
+         case (1ULL << 13): return std::string("F14");
+         case (1ULL << 14): return std::string("F15");
+         case (1ULL << 15): return std::string("F16");
+         case (1ULL << 16): return std::string("F17");
+         case (1ULL << 17): return std::string("F18");
+         case (1ULL << 18): return std::string("F19");
+         case (1ULL << 19): return std::string("F20");
+         case (1ULL << 20): return std::string("F21");
+         case (1ULL << 21): return std::string("F22");
+         case (1ULL << 22): return std::string("F23");
+         case (1ULL << 23): return std::string("F24");
+         case (1ULL << 24): return std::string("F25");
+         case (1ULL << 25): return std::string("F26");
+         case (1ULL << 26): return std::string("F27");
+         case (1ULL << 27): return std::string("F28");
+         case (1ULL << 28): return std::string("F29");
+         case (1ULL << 29): return std::string("F30");
+         case (1ULL << 30): return std::string("F31");
+         case (1ULL << 31): return std::string("F32");
          case (1ULL << 32): return std::string("F33");
          case (1ULL << 33): return std::string("F34");
          case (1ULL << 34): return std::string("F35");
@@ -281,7 +296,6 @@ text_sensor:
          case (1ULL << 62): return std::string("F63");
          case (1ULL << 63): return std::string("F64");
          default:
-          ESP_LOGD("modbus", "Unexpected error code: %llu", value); 
           return std::string("?");
        }
 
